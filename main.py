@@ -1,4 +1,4 @@
 import numpy as np
 
-data = np.load("./fashion_test.npy")
+data = np.load("data/fashion_test.npy")
 print(data.shape)
