@@ -5,13 +5,13 @@ from sklearn.metrics import accuracy_score
 import numpy as np
 
 # Load the PCA-transformed training and test data
-fashion_train = np.load('../../../data/fashion_train.npy')
-fashion_test = np.load('../../../data/fashion_test.npy')
+fashion_train = np.load("../../../data/fashion_train.npy")
+fashion_test = np.load("../../../data/fashion_test.npy")
 
 
 # Separate features and labels
 X_train_raw = fashion_train[:, :-1]  # First 784 columns are pixel values
-y_train_raw = fashion_train[:, -1]   # Last column is the label (class)
+y_train_raw = fashion_train[:, -1]  # Last column is the label (class)
 X_test_raw = fashion_test[:, :-1]
 y_test_raw = fashion_test[:, -1]
 
@@ -32,13 +32,13 @@ tree = DecisionTreeClassifier(random_state=42)
 # }
 
 param_grid = {
-    'max_depth': [10],
-    'min_samples_split': [5],
-    'min_samples_leaf': [15],
+    "max_depth": [10],
+    "min_samples_split": [5],
+    "min_samples_leaf": [15],
 }
 
 # Use GridSearchCV to find the best hyperparameters (gini impurity default)
-grid_search = GridSearchCV(tree, param_grid, cv=5, scoring='accuracy')
+grid_search = GridSearchCV(tree, param_grid, cv=5, scoring="accuracy")
 grid_search.fit(X_train_scaled, y_train_raw)
 
 # Print the best parameters
@@ -55,6 +55,3 @@ test_accuracy = accuracy_score(y_test_raw, y_test_pred)
 # Print the test accuracy and test error
 print(f"Test accuracy for Decision Tree on raw data: {test_accuracy:.4f}")
 print(f"Test error for Decision Tree on raw data: {1 - test_accuracy:.4f}")
-
-
-
