@@ -1,5 +1,5 @@
 import numpy as np
-from classifiers.classifier import DecisionTreeClassifier
+from classifiers.decision_tree.own_implementation import DecisionTreeClassifier
 
 training = np.load("./data/fashion_train.npy")
 X = training[:, :-1]  # all columns but the last
