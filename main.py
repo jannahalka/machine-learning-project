@@ -1,4 +1,11 @@
 import numpy as np
+from classifiers.decision_tree.own_implementation import DecisionTreeClassifier
 
-data = np.load("data/fashion_test.npy")
-print(data.shape)
+training = np.load("./data/fashion_train.npy")
+X = training[:, :-1]  # all columns but the last
+y = training[:, -1]  # expected to be from 0 to n_classes - 1
+
+
+# Fit data.
+clf = DecisionTreeClassifier(max_depth=2)
+clf.fit(X, y)
