@@ -1,11 +1,16 @@
 import numpy as np
 from classifiers.decision_tree.own_implementation import DecisionTreeClassifier
-
-training = np.load("./data/fashion_train.npy")
-X = training[:, :-1]  # all columns but the last
-y = training[:, -1]  # expected to be from 0 to n_classes - 1
+from classifiers.nn.own import FashionNeuralNetwork
 
 
-# Fit data.
-clf = DecisionTreeClassifier(max_depth=2)
-clf.fit(X, y)
+if __name__ == "__main__":
+    # Instantiate and train
+    nn = FashionNeuralNetwork(
+        hidden_units=128,
+        seed=42
+    )
+    nn.train(epochs=1000, lr=0.1, print_every=100)
+
+    # Evaluate on test set
+    test_acc = nn.accuracy(nn.X_test, nn.y_test) * 100
+    print(f"Test accuracy: {test_acc:.2f}%")
