@@ -1,5 +1,4 @@
 import numpy as np
-from classifiers.decision_tree.own_implementation import DecisionTreeClassifier
 from classifiers.nn.own import FashionNeuralNetwork
 
 
