@@ -4,10 +4,7 @@ from classifiers.nn.own import FashionNeuralNetwork
 
 if __name__ == "__main__":
     # Instantiate and train
-    nn = FashionNeuralNetwork(
-        hidden_units=128,
-        seed=42
-    )
+    nn = FashionNeuralNetwork(hidden_units=128, seed=42)
     nn.train(epochs=1000, lr=0.1, print_every=100)
 
     # Evaluate on test set

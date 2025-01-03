@@ -1,11 +1,14 @@
 import numpy as np
 
+
 class FashionNeuralNetwork:
-    def __init__(self,
-                 train_path="./data/fashion_train.npy",
-                 test_path="./data/fashion_test.npy",
-                 hidden_units=128,
-                 seed=42):
+    def __init__(
+        self,
+        train_path="./data/fashion_train.npy",
+        test_path="./data/fashion_test.npy",
+        hidden_units=128,
+        seed=42,
+    ):
         """
         Two-layer neural network for Fashion MNIST classification.
         Input: Flattened 28x28 images -> (784 features)
@@ -18,28 +21,28 @@ class FashionNeuralNetwork:
         # 1. Load the .npy data
         # ---------------------------
         training = np.load(train_path)  # shape should be (N_train, 785)
-        self.X_train = training[:, :-1] # all columns but last -> shape (N_train, 784)
+        self.X_train = training[:, :-1]  # all columns but last -> shape (N_train, 784)
         self.y_train = training[:, -1]  # last column -> labels shape (N_train,)
 
-        test = np.load(test_path)       # shape (N_test, 785)
-        self.X_test = test[:, :-1]      # shape (N_test, 784)
-        self.y_test = test[:, -1]       # shape (N_test,)
+        test = np.load(test_path)  # shape (N_test, 785)
+        self.X_test = test[:, :-1]  # shape (N_test, 784)
+        self.y_test = test[:, -1]  # shape (N_test,)
 
         # ---------------------------
         # 2. Preprocessing
         # ---------------------------
         # Convert from [0..255] to [0..1]
         self.X_train = self.X_train.astype(np.float32) / 255.0
-        self.X_test  = self.X_test.astype(np.float32)  / 255.0
+        self.X_test = self.X_test.astype(np.float32) / 255.0
 
         # Make sure labels are int
         self.y_train = self.y_train.astype(int)
-        self.y_test  = self.y_test.astype(int)
+        self.y_test = self.y_test.astype(int)
 
         # Basic network parameters
         self.num_features = self.X_train.shape[1]  # should be 784
         self.hidden_units = hidden_units
-        self.num_classes = 10                      # 10 classes for Fashion MNIST
+        self.num_classes = 10  # 10 classes for Fashion MNIST
 
         # ---------------------------
         # 3. Initialize weights
@@ -73,9 +76,9 @@ class FashionNeuralNetwork:
           3) logits = a1.dot(w2) + b2
         Returns: (a1, logits)
         """
-        z1 = X.dot(self.w1) + self.b1        # (N, hidden_units)
-        a1 = self.relu(z1)                   # (N, hidden_units)
-        logits = a1.dot(self.w2) + self.b2   # (N, num_classes)
+        z1 = X.dot(self.w1) + self.b1  # (N, hidden_units)
+        a1 = self.relu(z1)  # (N, hidden_units)
+        logits = a1.dot(self.w2) + self.b2  # (N, num_classes)
         return a1, logits
 
     def cross_entropy(self, logits: np.ndarray, y_true: np.ndarray) -> float:
@@ -84,18 +87,18 @@ class FashionNeuralNetwork:
         logits: (N, 10)
         y_true: (N,) with class indices [0..9]
         """
-        probs = self.softmax(logits)     # (N, 10)
+        probs = self.softmax(logits)  # (N, 10)
         N = y_true.shape[0]
         eps = 1e-9
-        correct_probs = probs[np.arange(N), y_true]  # pick the prob of the correct class
+        correct_probs = probs[
+            np.arange(N), y_true
+        ]  # pick the prob of the correct class
         loss = -np.mean(np.log(correct_probs + eps))
         return loss
 
-    def backpropagation(self,
-                        X: np.ndarray,
-                        a1: np.ndarray,
-                        logits: np.ndarray,
-                        y_true: np.ndarray):
+    def backpropagation(
+        self, X: np.ndarray, a1: np.ndarray, logits: np.ndarray, y_true: np.ndarray
+    ):
         """
         Computes gradients via backprop:
           dW1, db1, dW2, db2
@@ -123,7 +126,7 @@ class FashionNeuralNetwork:
         dZ1 = dA1 * (a1 > 0)  # (N, hidden_units)
 
         # 7. Grad for w1, b1
-        dW1 = X.T.dot(dZ1)    # (784, hidden_units)
+        dW1 = X.T.dot(dZ1)  # (784, hidden_units)
         db1 = np.sum(dZ1, axis=0)
 
         return dW1, db1, dW2, db2
@@ -149,7 +152,9 @@ class FashionNeuralNetwork:
             loss = self.cross_entropy(logits, self.y_train)
 
             # Backprop
-            dW1, db1, dW2, db2 = self.backpropagation(self.X_train, a1, logits, self.y_train)
+            dW1, db1, dW2, db2 = self.backpropagation(
+                self.X_train, a1, logits, self.y_train
+            )
 
             # Update params
             self.update_parameters(dW1, db1, dW2, db2, lr)
@@ -171,5 +176,3 @@ class FashionNeuralNetwork:
         """
         preds = self.predict(X)
         return np.mean(preds == y_true)
-
-
