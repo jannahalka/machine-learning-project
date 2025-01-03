@@ -32,6 +32,7 @@ class FashionNeuralNetwork:
         # 2. Preprocessing
         # ---------------------------
         # Convert from [0..255] to [0..1]
+        # TODO: Why Preprocessing?
         self.X_train = self.X_train.astype(np.float32) / 255.0
         self.X_test = self.X_test.astype(np.float32) / 255.0
 
@@ -59,6 +60,7 @@ class FashionNeuralNetwork:
         """Applies the ReLU function elementwise."""
         return np.maximum(0, x)
 
+    # todo: why softmax?
     def softmax(self, x: np.ndarray) -> np.ndarray:
         """
         Applies softmax row-wise.
