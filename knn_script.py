@@ -14,13 +14,13 @@ from sklearn.metrics import accuracy_score
 
 # Load the PCA-transformed training data and labels (cleaned dataset)
 X_train_pca_clean = np.load(
-    "../../data/train_data_for_classifiers/X_train_pca_clean.npy"
+    "./data/train_data_for_classifiers/X_train_pca_clean.npy"
 )
-y_train_clean = np.load("../../data/train_data_for_classifiers/y_train_clean.npy")
+y_train_clean = np.load("./data/train_data_for_classifiers/y_train_clean.npy")
 
 # Load the PCA-transformed test data and labels
-X_test_pca = np.load("../../data/test_data_for_classifiers/X_test_pca.npy")
-y_test = np.load("../../data/test_data_for_classifiers/y_test.npy")
+X_test_pca = np.load("./data/test_data_for_classifiers/X_test_pca.npy")
+y_test = np.load("./data/test_data_for_classifiers/y_test.npy")
 
 # Initialize KNN model
 knn = KNeighborsClassifier()
@@ -64,5 +64,5 @@ print(f"Test error: {1 - test_accuracy:.4f}")
     ->SUMMARY:
         -> test accuracy = 0.8458
             -> significantly better than random guess (assuming that our dataset is balanced)
-            -> best result event if adjusted k, or tried different distance metrics: euclidean, manhattan, minkowski 
+            -> best result event if adjusted k, or tried different distance metrics: euclidean, manhattan, minkowski
 """
