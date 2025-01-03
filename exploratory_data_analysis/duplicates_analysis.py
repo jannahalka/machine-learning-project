@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # Load your dataset from the .npy file
-fashion_train = np.load('../data/fashion_training.npy')
+fashion_train = np.load("../data/fashion_training.npy")
 
 # Convert to a Pandas DataFrame
 df_train = pd.DataFrame(fashion_train)
@@ -19,6 +19,6 @@ else:
     print("No duplicate rows found.")
 
 
-'''
+"""
     No duplicate rows found for training and test dataset
-'''
+"""

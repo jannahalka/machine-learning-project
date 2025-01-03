@@ -2,12 +2,13 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-'''
+"""
  This helper Standardize data
  -> this achieves: "You are recommended to consider applying some kind of feature scaling to the pixel values as part of your analyses of the data"
  -> used for PCA
     -> especially useful when using PCA for KNN or SVC
-'''
+"""
+
 
 def load_and_preprocess_data(file_path):
     # Load training dataset

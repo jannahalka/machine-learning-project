@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 # Load your datasets from the 'data' directory
-fashion_train = np.load('../data/fashion_train.npy')
-fashion_test = np.load('../data/fashion_test.npy')
+fashion_train = np.load("../data/fashion_train.npy")
+fashion_test = np.load("../data/fashion_test.npy")
 
 # Combine both datasets to check the imbalance across the entire dataset
 combined_data = np.concatenate((fashion_train, fashion_test), axis=0)
@@ -32,7 +32,7 @@ print(missing_test[missing_test > 0])
 print("\nMissing values in combined data:")
 print(missing_combined[missing_combined > 0])
 
-'''
+"""
     No missing values in the training data, test data, or the combined dataset
     This approach takes a look into each column and then sum up the missing values
-'''
+"""
