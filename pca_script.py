@@ -1,23 +1,12 @@
-"""
-    -> toto spoznamkovat lebo pri vytvarani vsetkych classifierov treba pouzivat tento PCA a nie "raw data"
-    -> konkretne budeme pouzivat pca = PCA(n_components=0.90, whiten=True) (done)
-        -> konkretne:
-            -> "../data/train_data_for_classifiers" (done)
-            -> "../data/test_data_for_classifiers" (done)
-"""
-
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import joblib
-from helpers.standardize_data import load_and_preprocess_data
+from exploratory_data_analysis.helpers.standardize_data import load_and_preprocess_data
 
-"""
-    ->PCA for classifiers
-"""
 
-X_train_scaled, y_train = load_and_preprocess_data("../data/fashion_train.npy")
+X_train_scaled, y_train = load_and_preprocess_data("./data/fashion_train.npy")
 
 # Step 2: Applying PCA to find all components
 #     -> white=True for KNN and Neural Network
@@ -25,7 +14,7 @@ pca = PCA(n_components=0.90, whiten=True)
 X_pca = pca.fit_transform(X_train_scaled)
 
 # Create the models directory if it doesn't exist
-joblib.dump(pca, "../models/pca_model.pkl")
+joblib.dump(pca, "./models/pca_model.pkl")
 
 # Step 3: Explained variance ratio
 explained_variance = pca.explained_variance_ratio_
@@ -98,20 +87,15 @@ print("Loadings for PC1 and PC2:")
 print(loadings_df)
 
 
-"""
- -> save test data with PCA
-"""
 # Load the pre-trained PCA model
-pca = joblib.load("../models/pca_model.pkl")
+# pca = joblib.load("../models/pca_model.pkl")
 
 # Load and preprocess the test data (scaling is required before applying PCA)
-X_test_scaled, y_test = load_and_preprocess_data("../data/fashion_test.npy")
+# X_test_scaled, y_test = load_and_preprocess_data("../data/fashion_test.npy")
 
 # Apply the same PCA transformation to the test data
-X_test_pca = pca.transform(X_test_scaled)
+# X_test_pca = pca.transform(X_test_scaled)
 
 # Optionally, save the PCA-transformed test data for future use
-np.save("../data/test_data_for_classifiers/X_test_pca.npy", X_test_pca)
-np.save("../data/test_data_for_classifiers/y_test.npy", y_test)
-
-print("PCA applied to test data and saved.")
+# np.save("./data/test_data_for_classifiers/X_test_pca.npy", X_test_pca)
+# np.save("./data/test_data_for_classifiers/y_test.npy", y_test)
