@@ -9,46 +9,26 @@ class FashionNeuralNetwork:
         hidden_units=128,
         seed=42,
     ):
-        """
-        Two-layer neural network for Fashion MNIST classification.
-        Input: Flattened 28x28 images -> (784 features)
-        Hidden: `hidden_units` neurons (ReLU)
-        Output: 10 classes
-        """
         np.random.seed(seed)
 
-        # ---------------------------
-        # 1. Load the .npy data
-        # ---------------------------
-        training = np.load(train_path)  # shape should be (N_train, 785)
-        self.X_train = training[:, :-1]  # all columns but last -> shape (N_train, 784)
-        self.y_train = training[:, -1]  # last column -> labels shape (N_train,)
+        training = np.load(train_path)
+        self.X_train = training[:, :-1]
+        self.y_train = training[:, -1]
 
-        test = np.load(test_path)  # shape (N_test, 785)
-        self.X_test = test[:, :-1]  # shape (N_test, 784)
-        self.y_test = test[:, -1]  # shape (N_test,)
+        test = np.load(test_path)
+        self.X_test = test[:, :-1]
+        self.y_test = test[:, -1]
 
-        # ---------------------------
-        # 2. Preprocessing
-        # ---------------------------
-        # Convert from [0..255] to [0..1]
-        # TODO: Why Preprocessing?
         self.X_train = self.X_train.astype(np.float32) / 255.0
         self.X_test = self.X_test.astype(np.float32) / 255.0
 
-        # Make sure labels are int
         self.y_train = self.y_train.astype(int)
         self.y_test = self.y_test.astype(int)
 
-        # Basic network parameters
-        self.num_features = self.X_train.shape[1]  # should be 784
+        self.num_features = self.X_train.shape[1]
         self.hidden_units = hidden_units
-        self.num_classes = 10  # 10 classes for Fashion MNIST
+        self.num_classes = 10
 
-        # ---------------------------
-        # 3. Initialize weights
-        # ---------------------------
-        # w1: (784, hidden_units), b1: (hidden_units,)
         self.w1 = 0.01 * np.random.randn(self.num_features, hidden_units)
         self.b1 = np.zeros((hidden_units,))
 
@@ -60,7 +40,6 @@ class FashionNeuralNetwork:
         """Applies the ReLU function elementwise."""
         return np.maximum(0, x)
 
-    # todo: why softmax?
     def softmax(self, x: np.ndarray) -> np.ndarray:
         """
         Applies softmax row-wise.
@@ -78,9 +57,9 @@ class FashionNeuralNetwork:
           3) logits = a1.dot(w2) + b2
         Returns: (a1, logits)
         """
-        z1 = X.dot(self.w1) + self.b1  # (N, hidden_units)
-        a1 = self.relu(z1)  # (N, hidden_units)
-        logits = a1.dot(self.w2) + self.b2  # (N, num_classes)
+        z1 = X.dot(self.w1) + self.b1
+        a1 = self.relu(z1)
+        logits = a1.dot(self.w2) + self.b2
         return a1, logits
 
     def cross_entropy(self, logits: np.ndarray, y_true: np.ndarray) -> float:
@@ -108,27 +87,24 @@ class FashionNeuralNetwork:
         N = X.shape[0]
 
         # 1. Softmax
-        probs = self.softmax(logits)  # (N, 10)
+        probs = self.softmax(logits)
 
         # 2. Convert y to one-hot
         y_onehot = np.zeros_like(probs)
         y_onehot[np.arange(N), y_true] = 1.0
 
         # 3. Gradient wrt logits
-        dlogits = (probs - y_onehot) / N  # (N, 10)
+        dlogits = (probs - y_onehot) / N
 
         # 4. Grad for w2, b2
-        dW2 = a1.T.dot(dlogits)  # (hidden_units, 10)
-        db2 = np.sum(dlogits, axis=0)  # (10,)
-
-        # 5. Backprop to hidden layer
-        dA1 = dlogits.dot(self.w2.T)  # (N, hidden_units)
+        dW2 = a1.T.dot(dlogits)
+        db2 = np.sum(dlogits, axis=0)
 
         # 6. Apply ReLU derivative
-        dZ1 = dA1 * (a1 > 0)  # (N, hidden_units)
+        dZ1 = dA1 * (a1 > 0)
 
         # 7. Grad for w1, b1
-        dW1 = X.T.dot(dZ1)  # (784, hidden_units)
+        dW1 = X.T.dot(dZ1)
         db1 = np.sum(dZ1, axis=0)
 
         return dW1, db1, dW2, db2
@@ -165,16 +141,10 @@ class FashionNeuralNetwork:
                 print(f"Epoch [{epoch}/{epochs}], Loss: {loss:.4f}")
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """
-        Returns the class predictions for input X.
-        """
         _, logits = self.forward(X)
         probs = self.softmax(logits)
         return np.argmax(probs, axis=1)
 
     def accuracy(self, X: np.ndarray, y_true: np.ndarray) -> float:
-        """
-        Computes classification accuracy on given data.
-        """
         preds = self.predict(X)
         return np.mean(preds == y_true)
