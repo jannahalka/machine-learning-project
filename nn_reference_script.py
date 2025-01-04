@@ -5,10 +5,10 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
 
-X_train = np.load('./data/fashion_train.npy')
-y_train = np.load('./data/train_data_for_classifiers/y_train_clean.npy')
-X_test = np.load('./data/fashion_test.npy')
-y_test = np.load('./data/test_data_for_classifiers/y_test.npy')
+X_train = np.load("./data/fashion_train.npy")
+y_train = np.load("./data/train_data_for_classifiers/y_train_clean.npy")
+X_test = np.load("./data/fashion_test.npy")
+y_test = np.load("./data/test_data_for_classifiers/y_test.npy")
 
 y_train = X_train[:, -1]
 X_train = X_train[:, :-1]
@@ -32,6 +32,7 @@ y_test = torch.tensor(y_test, dtype=torch.long)
 train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=64, shuffle=True)
 test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=64, shuffle=False)
 
+
 class FashionCNN(nn.Module):
     def __init__(self):
         super(FashionCNN, self).__init__()
@@ -41,13 +42,13 @@ class FashionCNN(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2),
         )
         self.fc_layers = nn.Sequential(
             nn.Flatten(),
             nn.Linear(64 * 7 * 7, 128),
             nn.ReLU(),
-            nn.Linear(128, 5)  # 5 because we are classifying 5 clothing categories
+            nn.Linear(128, 5),  # 5 because we are classifying 5 clothing categories
         )
 
     def forward(self, x):
@@ -55,9 +56,10 @@ class FashionCNN(nn.Module):
         x = self.fc_layers(x)
         return x
 
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = FashionCNN().to(device)
-criterion = nn.CrossEntropyLoss() # Loss function
+criterion = nn.CrossEntropyLoss()  # Loss function
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 
 epochs = 100
@@ -76,7 +78,9 @@ for epoch in range(epochs):
         running_loss += loss.item()
 
     if epoch % 10 == 0:
-        print(f"Epoch {epoch + 1}/{epochs}, Loss: {running_loss / len(train_loader):.4f}")
+        print(
+            f"Epoch {epoch + 1}/{epochs}, Loss: {running_loss / len(train_loader):.4f}"
+        )
 
 model.eval()
 correct = 0
@@ -92,4 +96,3 @@ with torch.no_grad():
 
 accuracy = correct / total
 print(f"Test Accuracy: {accuracy:.4f}")
-

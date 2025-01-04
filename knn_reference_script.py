@@ -12,9 +12,7 @@ from sklearn.model_selection import GridSearchCV
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-X_train_pca_clean = np.load(
-    "./data/train_data_for_classifiers/X_train_pca_clean.npy"
-)
+X_train_pca_clean = np.load("./data/train_data_for_classifiers/X_train_pca_clean.npy")
 y_train_clean = np.load("./data/train_data_for_classifiers/y_train_clean.npy")
 
 X_test_pca = np.load("./data/test_data_for_classifiers/X_test_pca.npy")
@@ -34,7 +32,6 @@ grid_search.fit(X_train_pca_clean, y_train_clean)
 
 print(f"Best parameters for KNN: {grid_search.best_params_}")
 print(f"Best cross-validation accuracy: {grid_search.best_score_:.4f}")
-
 
 
 best_k = grid_search.best_params_["n_neighbors"]
