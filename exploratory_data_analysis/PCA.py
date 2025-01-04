@@ -17,7 +17,6 @@ from helpers.standardize_data import load_and_preprocess_data
     ->PCA for classifiers
 """
 
-# Load and preprocess the data
 X_train_scaled, y_train = load_and_preprocess_data("../data/fashion_train.npy")
 
 # Step 2: Applying PCA to find all components
