@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import joblib
 from exploratory_data_analysis.helpers.standardize_data import load_and_preprocess_data
 
+np.random.seed(42)
 
 X_train_scaled, y_train = load_and_preprocess_data("./data/fashion_train.npy")
 
