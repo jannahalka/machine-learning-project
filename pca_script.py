@@ -89,14 +89,14 @@ print(loadings_df)
 
 
 # Load the pre-trained PCA model
-# pca = joblib.load("../models/pca_model.pkl")
+pca = joblib.load("./models/pca_model.pkl")
 
 # Load and preprocess the test data (scaling is required before applying PCA)
-# X_test_scaled, y_test = load_and_preprocess_data("../data/fashion_test.npy")
+X_test_scaled, y_test = load_and_preprocess_data("./data/fashion_train.npy")
 
 # Apply the same PCA transformation to the test data
-# X_test_pca = pca.transform(X_test_scaled)
+X_test_pca = pca.transform(X_test_scaled)
 
 # Optionally, save the PCA-transformed test data for future use
-# np.save("./data/test_data_for_classifiers/X_test_pca.npy", X_test_pca)
-# np.save("./data/test_data_for_classifiers/y_test.npy", y_test)
+np.save("./data/train_data_for_classifiers/X_train_pca.npy", X_test_pca)
+np.save("./data/train_data_for_classifiers/y_train_pca.npy", y_test)

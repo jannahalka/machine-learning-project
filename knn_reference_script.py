@@ -10,7 +10,7 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
 import numpy as np
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 X_train_pca_clean = np.load("./data/train_data_for_classifiers/X_train_pca_clean.npy")
 y_train_clean = np.load("./data/train_data_for_classifiers/y_train_clean.npy")
@@ -45,3 +45,12 @@ test_accuracy = accuracy_score(y_test, y_test_pred)
 
 print(f"Test accuracy: {test_accuracy:.4f}")
 print(f"Test error: {1 - test_accuracy:.4f}")
+
+print("\nConfusion Matrix (T-shirt/top Trouser Pullover Dress Shirt):")
+cm = confusion_matrix(y_test, y_test_pred)
+print(cm)
+
+print("\nClassification Report:")
+report = classification_report(y_test, y_test_pred)
+print(report)
+
