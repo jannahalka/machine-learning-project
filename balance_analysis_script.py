@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load your datasets from the 'data' directory
-fashion_train = np.load("../data/fashion_train.npy")
-fashion_test = np.load("../data/fashion_test.npy")
+fashion_train = np.load("./data/fashion_train.npy")
+fashion_test = np.load("./data/fashion_test.npy")
 
 # Convert both datasets into DataFrames for easier manipulation
 df_train = pd.DataFrame(fashion_train)
@@ -43,8 +43,3 @@ plot_category_distribution(category_counts_test, "Category Distribution (Test Da
 plot_category_distribution(
     category_counts_combined, "Category Distribution (Combined Data)"
 )
-
-
-"""
-    Dataset is balanced
-"""
