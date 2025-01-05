@@ -1,6 +1,6 @@
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import numpy as np
 
 fashion_train = np.load("./data/fashion_train.npy")
@@ -34,3 +34,10 @@ test_accuracy = accuracy_score(y_test_raw, y_test_pred)
 print(f"Test accuracy for Decision Tree on raw data: {test_accuracy:.4f}")
 print(f"Test error for Decision Tree on raw data: {1 - test_accuracy:.4f}")
 
+print("\nConfusion Matrix (T-shirt/top Trouser Pullover Dress Shirt):")
+cm = confusion_matrix(y_test_raw, y_test_pred)
+print(cm)
+
+print("\nClassification Report:")
+report = classification_report(y_test_raw, y_test_pred)
+print(report)

@@ -4,7 +4,6 @@
             -> but PCA reduced from 784 features to 112 PC's
             -> and we also set whitening = True
 
-    -> here maybe explore options with Bayes classifier as theoretical benchmark (not sure if it can be used here)
 """
 
 from sklearn.neighbors import KNeighborsClassifier

@@ -100,6 +100,9 @@ class FashionNeuralNetwork:
         dW2 = a1.T.dot(dlogits)
         db2 = np.sum(dlogits, axis=0)
 
+         # 5. Backprop to hidden layer
+        dA1 = dlogits.dot(self.w2.T)
+
         # 6. Apply ReLU derivative
         dZ1 = dA1 * (a1 > 0)
 
@@ -122,12 +125,14 @@ class FashionNeuralNetwork:
         """
         Simple training loop with batch gradient descent over the entire training set.
         """
+        loss_history = []
         for epoch in range(1, epochs + 1):
             # Forward pass
             a1, logits = self.forward(self.X_train)
 
             # Compute loss
             loss = self.cross_entropy(logits, self.y_train)
+            loss_history.append(loss)
 
             # Backprop
             dW1, db1, dW2, db2 = self.backpropagation(
@@ -139,6 +144,7 @@ class FashionNeuralNetwork:
 
             if epoch % print_every == 0 or epoch == epochs:
                 print(f"Epoch [{epoch}/{epochs}], Loss: {loss:.4f}")
+
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         _, logits = self.forward(X)
